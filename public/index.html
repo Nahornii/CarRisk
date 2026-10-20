@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="light" name="color-scheme"/>
+<meta content="CarRisk Lab — демонстрація аналізу тексту автомобільних оголошень за допомогою Jev AI" name="description"/>
+<title>CarRisk Lab — Jev AI</title>
+<link href="styles.css" rel="stylesheet"/>
+<script defer="" src="app.js"></script>
+</head>
+<body>
+<svg aria-hidden="true" class="icon-definitions" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-car" viewbox="0 0 24 24"><path d="m5 11 1.5-5A2 2 0 0 1 8.4 4.5h7.2A2 2 0 0 1 17.5 6L19 11m-14 0h14a2 2 0 0 1 2 2v5H3v-5a2 2 0 0 1 2-2Zm1.5 7v2m11-2v2M7 14.5h.01m10-.01h.01"></path></symbol>
+<symbol id="i-grid" viewbox="0 0 24 24"><rect height="8" rx="2" width="8" x="3" y="3"></rect><rect height="8" rx="2" width="8" x="13" y="3"></rect><rect height="8" rx="2" width="8" x="3" y="13"></rect><rect height="8" rx="2" width="8" x="13" y="13"></rect></symbol>
+<symbol id="i-compare" viewbox="0 0 24 24"><path d="M4 7h16M4 17h16M8 3l-4 4 4 4m8 2 4 4-4 4"></path></symbol>
+<symbol id="i-info" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5m0-8h.01"></path></symbol>
+<symbol id="i-arrow" viewbox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"></path></symbol>
+<symbol id="i-check" viewbox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol>
+<symbol id="i-alert" viewbox="0 0 24 24"><path d="m10.4 3.5-8 14A2 2 0 0 0 4.2 20h15.6a2 2 0 0 0 1.8-2.5l-8-14a1.8 1.8 0 0 0-3.2 0ZM12 9v4m0 3.5h.01"></path></symbol>
+<symbol id="i-bolt" viewbox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7l.5-7Z"></path></symbol>
+<symbol id="i-code" viewbox="0 0 24 24"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-16-2 22"></path></symbol>
+<symbol id="i-download" viewbox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M4 17v4h16v-4"></path></symbol>
+<symbol id="i-copy" viewbox="0 0 24 24"><rect height="12" rx="2" width="12" x="8" y="8"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></symbol>
+<symbol id="i-refresh" viewbox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.7-4M4 3v4h4M4 13a8 8 0 0 0 14.7 4M20 21v-4h-4"></path></symbol>
+<symbol id="i-lock" viewbox="0 0 24 24"><rect height="11" rx="2" width="16" x="4" y="10"></rect><path d="M8 10V7a4 4 0 1 1 8 0v3"></path></symbol>
+<symbol id="i-eye" viewbox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></symbol>
+<symbol id="i-chevron" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></symbol>
+<symbol id="i-chart" viewbox="0 0 24 24"><path d="M3 20h18M6 17v-5m6 5V5m6 12V9"></path></symbol>
+<symbol id="i-clock" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></symbol>
+<symbol id="i-external" viewbox="0 0 24 24"><path d="M13 5h6v6m0-6-9 9M19 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"></path></symbol>
+<symbol id="i-clipboard" viewbox="0 0 24 24"><rect height="16" rx="2" width="16" x="4" y="5"></rect><path d="M9 5a3 3 0 0 1 6 0v2H9V5Z"></path></symbol>
+</svg>
+<div class="app-shell">
+<aside aria-label="Навігація" class="sidebar">
+<a aria-label="CarRisk Lab — головна" class="brand" href="#analysis">
+<span class="brand-symbol"><svg class="icon icon-xl"><use href="#i-car"></use></svg></span>
+<span><strong>CarRisk<span class="brand-dot">.</span>Lab</strong><small>Аналіз оголошень</small></span>
+</a>
+
+<nav aria-label="Розділи" class="side-nav">
+<button aria-current="page" class="nav-item active" data-view="analysis"><svg class="icon"><use href="#i-grid"></use></svg><span>Аналіз оголошення</span></button>
+<button class="nav-item" data-view="compare"><svg class="icon"><use href="#i-compare"></use></svg><span>Порівняння A / B</span><span class="nav-counter" id="history-count">0</span></button>
+
+</nav>
+
+</aside>
+<div class="main-shell">
+<header class="topbar">
+<div class="breadcrumbs">CarRisk Lab / Аналіз оголошення</div>
+<div class="top-actions"><span class="status-indicator" id="api-status"><span class="dot"></span>Не перевірено</span></div>
+</header>
+<main class="main-content">
+<section aria-labelledby="analysis-heading" class="view active" id="view-analysis">
+<div class="page-intro"><div><h1 id="analysis-heading">Аналіз ризиків автомобіля</h1><p>Перевірте опис автомобіля на суперечності, згадані несправності та відсутню інформацію.</p></div></div>
+
+<div class="workspace">
+<section aria-labelledby="input-title" class="card input-card">
+<div class="card-header"><div class="card-header-title"><span class="number-icon">01</span><div><h2 id="input-title">Вхідні дані</h2><p>Введіть характеристики й текст оголошення</p></div></div></div>
+<div class="card-content">
+<div class="section-label">ШВИДКІ ПРИКЛАДИ</div>
+<div aria-label="Приклади оголошень" class="preset-buttons" role="group">
+<button class="preset-button" data-preset="contradictory"><span class="preset-dot red"></span> Суперечливий</button>
+<button class="preset-button" data-preset="transparent"><span class="preset-dot green"></span> Прозорий</button>
+<button class="preset-button" data-preset="vague"><span class="preset-dot amber"></span> Розмитий</button>
+</div>
+<form id="analysis-form" novalidate="">
+<div class="fields-grid"><label class="form-field field-wide"><span>Марка / модель</span><input autocomplete="off" id="car-name" maxlength="100" placeholder="Наприклад, Jaguar XE 2.0D" type="text"/></label><label class="form-field"><span>Рік випуску</span><input id="car-year" max="2030" min="1950" placeholder="2016" type="number"/></label><label class="form-field"><span>Пробіг, км</span><input id="car-mileage" max="2500000" min="0" placeholder="210000" type="number"/></label><label class="form-field field-wide"><span>Ціна <small>(необов'язково)</small></span><input id="car-price" maxlength="55" placeholder="12 500 USD" type="text"/></label></div>
+<label class="form-field description-field"><span>Текст оголошення <span class="required">*</span></span><textarea id="car-description" maxlength="6500" minlength="30" placeholder="Вставте опис автомобіля українською або іншою мовою..." rows="9"></textarea><small class="field-caption"><span>Достатньо 2–3 речень. Параметри з форми також передаються моделі.</span><span id="char-count">0 / 6500</span></small></label>
+<div class="connection-controls">
+<button class="btn btn-secondary btn-small" id="check-connection" type="button">Перевірити підключення</button>
+</div>
+<div class="error-box" hidden="" id="error-box" role="alert"><svg class="icon"><use href="#i-alert"></use></svg><span id="error-message"></span></div>
+<div class="form-actions"><button class="btn btn-primary" id="analyze-button" type="submit"><svg class="icon"><use href="#i-bolt"></use></svg> <span id="analyze-text">Аналізувати через Jev</span> <svg class="icon icon-sm"><use href="#i-arrow"></use></svg></button></div>
+</form>
+<div class="usage-note"><svg class="icon icon-sm"><use href="#i-info"></use></svg><span>Оцінювання стосується тексту оголошення та не замінює перевірку автомобіля на СТО.</span></div>
+</div>
+</section>
+<section aria-labelledby="result-title" class="card result-card"><div class="card-header"><div class="card-header-title"><span class="number-icon number-icon-blue">02</span><div><h2 id="result-title">Оцінка Jev</h2><p>Результат аналізу оголошення</p></div></div><span class="result-status" id="result-status">Немає аналізу</span></div><div class="card-content result-content" id="result-content"><div class="empty-results"><div class="empty-illustration"><svg class="icon"><use href="#i-chart"></use></svg></div><h3>Дані готові до аналізу</h3><p>Оберіть приклад або вставте власний опис і натисніть «Аналізувати».</p></div></div></section>
+</div>
+
+</section>
+<section aria-labelledby="compare-heading" class="view" hidden="" id="view-compare"><div class="page-intro"><div><h1 id="compare-heading">Порівняння A / B</h1><p>Перевірте, як зміна лише одного речення впливає на числові оцінки Jev.</p></div></div><div class="comparison-grid" id="comparison-content"><div class="card compare-placeholder"><div class="compare-empty-icon"><svg class="icon"><use href="#i-compare"></use></svg></div><h2>Потрібно щонайменше два аналізи</h2><p>Проаналізуйте оголошення, змініть формулювання та запустіть Jev ще раз. Ми збережемо історію в пам'яті цієї вкладки.</p><button class="btn btn-primary" data-view="analysis" type="button">Перейти до аналізу <svg class="icon icon-sm"><use href="#i-arrow"></use></svg></button></div></div></section>
+
+</main>
+<footer class="footer">CarRisk Lab · Jev AI</footer>
+</div>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+</body>
+</html>
