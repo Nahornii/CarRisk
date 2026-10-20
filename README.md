@@ -9,7 +9,7 @@
 1. Відкрийте готовий файл **`local_config.py`** і впишіть ключ:
 
    ```python
-   API_KEY = 'ваш_Jev_API_ключ'
+   API_KEY = 'Jev_API_key'
    ```
 
 2. У каталозі проєкту виконайте:
@@ -25,7 +25,7 @@
 Можна передати ключ через змінну середовища замість редагування файлу:
 
 ```bash
-JEV_AI_API_KEY='ваш_Jev_API_ключ' python3 server.py
+JEV_AI_API_KEY='Jev_API_key' python3 server.py
 ```
 
 ## Що означають показники
@@ -46,7 +46,7 @@ CarRisk-Lab-v4/
 │   ├── app.js
 │   └── styles.css
 ├── server.py
-├── local_config.py        # готовий файл для введення API-ключа
+├── local_config.py       
 └── README.md
 ```
 
